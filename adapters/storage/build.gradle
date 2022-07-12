@@ -1,0 +1,22 @@
+plugins {
+    id "java-test-fixtures"
+}
+
+dependencies {
+    implementation project(":business-core")
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    implementation "org.liquibase:liquibase-core"
+
+    runtimeOnly "org.postgresql:postgresql"
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    testFixturesImplementation "org.springframework.boot:spring-boot-starter-test"
+    testFixturesImplementation "org.testcontainers:postgresql:1.17.2"
+    testFixturesImplementation "org.testcontainers:junit-jupiter:1.17.2"
+    testFixturesImplementation "org.testcontainers:postgresql:1.17.2"
+
+    integrationTestImplementation(testFixtures(project))
+}

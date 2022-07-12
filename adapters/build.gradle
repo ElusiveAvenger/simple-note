@@ -1,0 +1,31 @@
+subprojects {
+    testing {
+        suites {
+            integrationTest(JvmTestSuite) {
+                dependencies {
+                    implementation project
+                    implementation "org.springframework.boot:spring-boot-starter-test"
+                }
+
+                targets {
+                    all {
+                        testTask.configure {
+                            shouldRunAfter(test)
+                        }
+                    }
+                }
+
+                useJUnitJupiter()
+            }
+        }
+    }
+
+    configurations {
+        integrationTestImplementation.extendsFrom implementation
+        integrationTestRuntimeOnly.extendsFrom runtimeOnly
+    }
+
+    tasks.named("check") {
+        dependsOn (testing.suites.integrationTest)
+    }
+}

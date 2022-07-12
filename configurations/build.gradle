@@ -1,0 +1,31 @@
+subprojects {
+    testing {
+        suites {
+            e2eTest(JvmTestSuite) {
+                dependencies {
+                    implementation project
+                    implementation "org.springframework.boot:spring-boot-starter-test"
+                }
+
+                targets {
+                    all {
+                        testTask.configure {
+                            shouldRunAfter(test)
+                        }
+                    }
+                }
+
+                useJUnitJupiter()
+            }
+        }
+    }
+
+    configurations {
+        e2eTestImplementation.extendsFrom implementation
+        e2eTestRuntimeOnly.extendsFrom runtimeOnly
+    }
+
+    tasks.named("check") {
+        dependsOn (testing.suites.e2eTest)
+    }
+}
